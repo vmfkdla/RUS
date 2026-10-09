@@ -200,6 +200,8 @@ p{margin:0 0 var(--lh)}
   border:2px solid var(--navy);background:#fff;border-radius:99px;padding:3px 16px 4px;
   font-family:var(--f-display);font-size:17px;line-height:24px;color:var(--navy)
 }
+#calYears{flex-wrap:wrap}
+#calYears button{white-space:nowrap;padding-left:12px;padding-right:12px}
 .switch button[aria-pressed="true"]{background:var(--crimson);color:#fff;box-shadow:2px 3px 0 rgba(30,42,110,.3)}
 .potion{font-family:var(--f-hand);font-size:18px;line-height:24px}
 
@@ -421,8 +423,10 @@ body.lock{overflow:hidden}
             <span><i style="background:var(--sakura-l);box-shadow:inset 0 0 0 2px var(--crimson)"></i>행사일</span>
             <span><i style="background:#ffeef3;border:1px solid #f4a7b4"></i>방학</span>
             <span><i style="background:#dfeaff;border:1px solid var(--sky-d)"></i>수학여행</span>
-            <span><i style="background:repeating-linear-gradient(135deg,#fff7d4 0 3px,#fff 3px 6px);border:1px solid #d9c98a"></i>작품 시작 주</span>
+            <span><i style="background:repeating-linear-gradient(135deg,#fff7d4 0 3px,#fff 3px 6px);border:1px solid #d9c98a"></i>작품 시작 주(2026년)</span>
           </div>
+          <div class="switch" id="calYears" role="group" aria-label="학년도 선택"></div>
+          <p class="hand" id="calNote" style="margin:0 0 4px"></p>
           <div class="cal" id="cal"></div>
           <p class="soft hand" style="max-width:36em">수학여행은 3일 일정이며 오사카성, 나라 사슴공원, 도톤보리를 돌아본다. 일자는 한 해의 흐름을 보여 주기 위한 배치이다.</p>
         </div>
@@ -475,24 +479,38 @@ const RAON = {
      q:'…오, 좋네. 아니, 안 울어.'}
 };
 
-/* 학사일정: 3월부터 이듬해 2월까지. y·m·d 는 달력 배치용 일자.
-   to 가 있으면 기간, vac 이면 방학 색, start 는 작품 시작 주(4월 둘째 주). */
-const YEAR0 = 2026;           // 3월~12월 연도 (1~2월은 +1)
-const EVENTS = [
-  {m:3, d:2,  e:'🌱', t:'진급', s:'첫 등교일에 한 학년 올라간다'},
-  {m:3, d:14, e:'🍫', t:'화이트데이'},
-  {m:4, d:15, e:'📝', t:'중간고사'},
-  {m:5, d:15, e:'🏃', t:'체육대회'},
-  {m:5, d:28, e:'🎢', t:'현장체험학습'},
-  {m:7, d:17, e:'📚', t:'기말고사 · 방학식'},
-  {m:8, d:1,  to:31, e:'🎆', t:'여름방학', s:'8월 한 달 내내', vac:true},
-  {m:9, d:16, to:18, e:'🧳', t:'수학여행 · 오사카', s:'3일 · 그해 2학년만 간다', trip:true},
-  {m:10,d:23, e:'🎪', t:'세영제'},
-  {m:12,d:25, e:'🎄', t:'첫눈 · 크리스마스'},
-  {m:2, d:12, e:'💐', t:'졸업식'},
-  {m:2, d:14, e:'🍫', t:'밸런타인데이'}
+/* 학사일정: 학년도마다 3월~이듬해 2월. 날짜는 요일 규칙으로 계산한다.
+   n번째 요일: nth(y,m,요일(0=일),n) / 주말이면 평일로: wk(y,m,d) */
+const nth=(y,m,w,n)=>{const f=new Date(y,m-1,1).getDay(); return 1+((w-f+7)%7)+(n-1)*7;};
+const wk=(y,m,d)=>{const w=new Date(y,m-1,d).getDay(); return w===6?d-1:w===0?d+1:d;};
+const YEARS = [
+  {y:2026, stage:'🌱', label:'PC 2학년', note:'작품이 시작되는 해. 4월 둘째 주부터 이야기가 열린다.',
+   grad:'하연·도훈 졸업', trip:'PC·라온과 2학년 동기들이 간다'},
+  {y:2027, stage:'🌿', label:'PC 3학년', note:'하연과 도훈은 졸업생이 되어 하굣길과 행사에 들른다.',
+   grad:'PC와 3학년 동기들 졸업', trip:'2학년이 된 주원·새봄이 간다'},
+  {y:2028, stage:'🌳', label:'PC 졸업 후', note:'PC는 졸업생. 후배들의 학교 행사에 손님으로 찾아간다.',
+   grad:'주원·새봄 졸업', trip:'그해 2학년 후배들이 간다'}
 ];
-const START_WEEK = {m:4, from:6, to:10};   // 작품 시작: 4월 둘째 주
+function eventsFor(Y){
+  const y=Y.y, y2=y+1;
+  const trip=nth(y,9,3,3);
+  return [
+    {m:3, d:wk(y,3,2), e:Y.stage, t:'진급', s:`첫 등교일 · ${Y.stage} ${Y.label}`},
+    {m:3, d:14, e:'🍫', t:'화이트데이'},
+    {m:4, d:nth(y,4,3,3), e:'📝', t:'중간고사'},
+    {m:5, d:wk(y,5,15), e:'🏃', t:'체육대회'},
+    {m:5, d:wk(y,5,28), e:'🎢', t:'현장체험학습'},
+    {m:7, d:nth(y,7,5,3), e:'📚', t:'기말고사 · 방학식'},
+    {m:8, d:1, to:31, e:'🎆', t:'여름방학', s:'8월 한 달 내내', vac:true},
+    {m:9, d:trip, to:trip+2, e:'🧳', t:'수학여행 · 오사카', s:`3일 · ${Y.trip}`, trip:true},
+    {m:10,d:nth(y,10,5,4), e:'🎪', t:'세영제'},
+    {m:12,d:25, e:'🎄', t:'첫눈 · 크리스마스'},
+    {m:2, d:nth(y2,2,5,2), e:'💐', t:'졸업식', s:Y.grad},
+    {m:2, d:14, e:'🍫', t:'밸런타인데이'}
+  ];
+}
+const START_WEEK = {y:2026, m:4, from:6, to:10};   // 작품 시작: 2026년 4월 둘째 주
+let calYear = 2026;
 const MONTH_ORDER = [3,4,5,6,7,8,9,10,11,12,1,2];
 
 
@@ -548,23 +566,27 @@ $('#raon').addEventListener('click',e=>{
 
 /* ---------- 달력 ---------- */
 function renderCalendar(){
+  const Y = YEARS.find(v=>v.y===calYear), EV = eventsFor(Y);
+  $('#calYears').innerHTML = YEARS.map(v=>`<button type="button" data-y="${v.y}" aria-pressed="${v.y===calYear}">${v.stage} ${v.y}학년도</button>`).join('');
+  $('#calNote').innerHTML = `<b>${Y.y}년 3월 ~ ${Y.y+1}년 2월</b> · ${Y.stage} ${Y.label}. ${Y.note}`;
   const html = MONTH_ORDER.map(m=>{
-    const y = m>=3 ? YEAR0 : YEAR0+1;
+    const y = m>=3 ? Y.y : Y.y+1;
     const first = new Date(y,m-1,1).getDay();
     const last  = new Date(y,m,0).getDate();
-    const evs = EVENTS.filter(x=>x.m===m);
-    const cell = {};  // d -> {cls:[],e:''}
+    const evs = EV.filter(x=>x.m===m);
+    const cell = {};
     const mark=(d,cls,e)=>{const c=cell[d]||(cell[d]={cls:[],e:''}); c.cls.push(...cls); if(e) c.e=e;};
     evs.forEach(v=>{
       if(v.to){
         for(let d=v.d; d<=v.to; d++){
           const cls=['rg']; if(v.vac) cls.push('vac');
           if(d===v.d) cls.push('first'); if(d===v.to) cls.push('last');
-          mark(d,cls, (v.trip ? (d===v.d?v.e:'') : (d===v.d?v.e:'')));
+          mark(d,cls, d===v.d?v.e:'');
         }
       } else mark(v.d,['ev'],v.e);
     });
-    if(START_WEEK.m===m) for(let d=START_WEEK.from; d<=START_WEEK.to; d++) mark(d,['start'],'');
+    const isStart = START_WEEK.y===y && START_WEEK.m===m;
+    if(isStart) for(let d=START_WEEK.from; d<=START_WEEK.to; d++) mark(d,['start'],'');
     let days='';
     for(let i=0;i<first;i++) days+='<div class="d blank"></div>';
     for(let d=1; d<=last; d++){
@@ -576,9 +598,9 @@ function renderCalendar(){
     const list = evs.length
       ? evs.map(v=>`<li><span class="when">${v.to ? (v.to-v.d>=28 ? '전체' : `${v.d}~${v.to}일`) : `${v.d}일(${wd(v.d)})`}</span>${v.e} <b>${v.t}</b>${v.s?`<span class="sub">${v.s}</span>`:''}</li>`).join('')
       : `<li><span class="none">행사 없음</span></li>`;
-    const flag = START_WEEK.m===m ? `<span class="cm-flag"><span class="stage" style="--sg:#ff2f62">작품 시작</span></span>` : '';
+    const flag = isStart ? `<span class="cm-flag"><span class="stage" style="--sg:#ff2f62">작품 시작</span></span>` : '';
     return `<article class="cm">${flag}
-      <div class="cm-h"><span class="mm">${m}월</span></div>
+      <div class="cm-h"><span class="mm">${m}월</span><span class="yy">${y}</span></div>
       <div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div>
       <div class="days">${days}</div>
       <ul class="clist">${list}</ul>
@@ -586,6 +608,11 @@ function renderCalendar(){
   }).join('');
   $('#cal').innerHTML = html;
 }
+document.addEventListener('click',e=>{
+  const b=e.target.closest('#calYears button'); if(!b) return;
+  calYear=+b.dataset.y; renderCalendar();
+  const nb=$(`#calYears button[data-y="${calYear}"]`); nb&&nb.focus();
+});
 
 
 /* ---------- 탭 ---------- */
