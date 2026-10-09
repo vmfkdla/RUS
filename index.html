@@ -87,8 +87,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top{
   position:sticky;top:0;z-index:20;margin:0 calc(var(--pr)*-1) 0 calc(var(--pl)*-1);
   padding:12px var(--pr) 0 var(--pl);background:var(--paper);border-bottom:2px solid var(--navy);
+  display:flex;flex-direction:column;
 }
-.brand{display:flex;align-items:center;gap:6px;margin:0 0 8px 8px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:6px;margin:0 0 8px 8px;flex-wrap:nowrap}
+@media(min-width:620px){
+  .top{flex-direction:row;align-items:flex-end;justify-content:space-between}
+  .brand{order:2;margin:0 4px 6px 12px;flex:0 0 auto}
+}
 .scrap{
   position:relative;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1;color:var(--navy);
   padding:8px 12px 9px 26px;transform:rotate(-3deg);
@@ -429,9 +434,9 @@ body.lock{overflow:hidden}
 <script>
 /* =====================================================
    데이터 — 내용을 고칠 땐 여기만 고친다.
-   이미지: img/{번호}.png  (이미지 표의 번호 = 파일명, 0 채우기 없음)
+   이미지: index.html 과 같은 위치에 {번호}.png  예) 41.png  (이미지 표의 번호, 0 채우기 없음)
    ===================================================== */
-const IMG = n => `img/${n}.png`;
+const IMG = n => `${n}.png`;
 
 const MATES = {
   dasol:{img:41,name:'오다솔',grade:'고2',birth:'2009.05.03',h:158,trait:'눈치 빠른 다정함 · 현실 추진력',q:'또 밥 거른 거지? 일단 이거부터 먹고 얘기해.'},
@@ -496,7 +501,7 @@ const $ = (s,r=document)=>r.querySelector(s);
 const DOW = ['일','월','화','수','목','금','토'];
 
 function shot(n,label){
-  return `<div class="shot" data-ph="${label}\n(이미지 ${n}번)"><img src="${IMG(n)}" alt="${label}" onerror="this.parentNode.classList.add('noimg')"></div>`;
+  return `<div class="shot" data-ph="${label}\n(${n}.png)"><img src="${IMG(n)}" alt="${label}" onerror="this.parentNode.classList.add('noimg')"></div>`;
 }
 function mateCard(k){
   const x=MATES[k];
