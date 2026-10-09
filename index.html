@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나 빼고 다 커플</title>
+<meta name="description" content="다섯 커플, 그리고 빈자리 하나. 어두운 요소 없는 긍정 청춘 로맨스 스토리챗의 등장인물과 학사일정.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="나 빼고 다 커플">
+<meta property="og:description" content="다섯 커플, 그리고 빈자리 하나. 세영고 청춘 로맨스 스토리챗.">
+<!-- 썸네일 확정 후 og:image를 절대 주소로 바꾼다. 예) https://vmfkdla.github.io/저장소이름/thumbnail.png -->
+<meta property="og:image" content="thumbnail.png">
+<meta name="theme-color" content="#fffdf8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{
+  --desk:#e4eaf5;
+  --paper:#fffdf8;
+  --rule:#d6e6fa;
+  --margin:#f4a7b4;
+  --navy:#1e2a6e;
+  --ink:#232a55;
+  --ink-soft:#66698a;
+  --crimson:#ff2f62;
+  --crimson-d:#c4144a;
+  --sakura:#f9b9cd;
+  --sakura-l:#ffe3ea;
+  --sky:#cfe3ff;
+  --sky-d:#3b6fe0;
+  --tape:rgba(249,185,205,.7);
+  --f-display:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-hand:"Gaegu","Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --lh:28px;
+  --pl:48px;--pr:16px;
+}
+@media(min-width:720px){:root{--pl:84px;--pr:64px}}
+*{box-sizing:border-box}
+html{color-scheme:light;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--desk);color:var(--ink);
+  font-family:var(--f-body);font-size:16px;line-height:var(--lh);
+  -webkit-text-size-adjust:100%;word-break:keep-all;overflow-wrap:break-word;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sky-d);outline-offset:3px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- 노트 한 장 + 남색 프레임 ---------- */
+.sheet{
+  position:relative;max-width:1000px;margin:0 auto;min-height:100vh;padding:10px;
+  background:
+    linear-gradient(90deg,transparent 0 39px,var(--margin) 39px 41px,transparent 41px),
+    repeating-linear-gradient(180deg,transparent 0 27px,var(--rule) 27px 28px),
+    var(--paper);
+  background-attachment:local;
+}
+@media(min-width:720px){
+  .sheet{
+    margin:24px auto;min-height:calc(100vh - 48px);padding:18px;border-radius:6px;
+    box-shadow:0 14px 40px rgba(40,60,120,.2);
+    background:
+      linear-gradient(90deg,transparent 0 77px,var(--margin) 77px 79px,transparent 79px),
+      repeating-linear-gradient(180deg,transparent 0 27px,var(--rule) 27px 28px),
+      var(--paper);
+    background-attachment:local;
+  }
+}
+.frame{
+  position:relative;min-height:calc(100vh - 20px);border:2px solid var(--navy);
+  padding:0 var(--pr) 80px var(--pl);
+}
+@media(min-width:720px){.frame{min-height:calc(100vh - 84px);padding-bottom:96px}}
+.bow{position:absolute;z-index:40;top:-4px;left:-4px;width:64px;height:64px;pointer-events:none;filter:drop-shadow(1px 2px 0 rgba(0,0,0,.15))}
+@media(min-width:720px){.bow{top:-16px;left:-16px;width:104px;height:104px}}
+.doodles{display:none}
+@media(min-width:720px){
+  .doodles{display:block;position:absolute;top:0;bottom:0;right:0;width:var(--pr);pointer-events:none}
+  .doodles svg{position:absolute;right:12px;width:34px;height:34px;fill:none;stroke:var(--navy);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+  .doodles .p{stroke:#e8467a}
+}
+
+/* ---------- 상단: 쪽지 + 스티커 + 인덱스 탭 ---------- */
+.top{
+  position:sticky;top:0;z-index:20;margin:0 calc(var(--pr)*-1) 0 calc(var(--pl)*-1);
+  padding:12px var(--pr) 0 var(--pl);background:var(--paper);border-bottom:2px solid var(--navy);
+}
+.brand{display:flex;align-items:center;gap:6px;margin:0 0 8px 8px;flex-wrap:wrap}
+.scrap{
+  position:relative;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1;color:var(--navy);
+  padding:8px 12px 9px 26px;transform:rotate(-3deg);
+  background:
+    radial-gradient(circle at 9px 6px,var(--desk) 0 2.5px,transparent 3px) 0 0/100% 11px repeat-y,
+    repeating-linear-gradient(180deg,transparent 0 10px,var(--rule) 10px 11px),#fff;
+  border:1.5px solid var(--navy);box-shadow:2px 2px 0 rgba(30,42,110,.2);
+}
+.logo{width:116px;height:46px;margin-left:-4px;overflow:visible;transform:rotate(2deg)}
+.tabs{display:flex;gap:6px;align-items:flex-end}
+.tab{
+  flex:0 0 auto;border:2px solid var(--navy);border-bottom:0;border-radius:10px 10px 0 0;
+  padding:7px 16px 6px;background:var(--c);font-family:var(--f-display);font-size:18px;line-height:24px;
+  color:var(--navy);transform:translateY(4px);transition:transform .15s;position:relative;
+}
+.tab[data-p="world"]{--c:var(--sakura-l)}
+.tab[data-p="calendar"]{--c:var(--sky)}
+.tab[aria-selected="true"]{transform:translateY(2px);padding-bottom:10px;background:var(--paper);border-top:5px solid var(--crimson)}
+.tab:hover{transform:translateY(1px)}
+
+/* ---------- 페이지 공통 ---------- */
+.page{display:none;padding-top:28px}
+.page.on{display:block}
+h2{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:36px;margin:0 0 8px;color:var(--navy)}
+h3{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:28px;margin:0;color:var(--navy)}
+p{margin:0 0 var(--lh)}
+.lead{font-family:var(--f-hand);font-size:23px;line-height:28px;font-weight:700;max-width:34em;color:var(--navy)}
+.hand{font-family:var(--f-hand);font-size:19px;line-height:24px}
+.soft{color:var(--ink-soft)}
+.hl{background:linear-gradient(transparent 58%,rgba(255,47,98,.28) 58%)}
+.block{margin-bottom:56px}
+.block>h2{display:inline-block;position:relative;isolation:isolate}
+.block>h2::after{content:"";position:absolute;left:-4px;right:-4px;bottom:2px;height:10px;background:var(--hc,var(--sakura));opacity:.75;z-index:-1}
+.block.b-sky{--hc:var(--sky)}
+
+.note{
+  position:relative;max-width:34em;margin:0 0 30px 6px;padding:20px 22px 12px 38px;color:var(--navy);
+  background:
+    radial-gradient(circle at 12px 14px,var(--desk) 0 3.5px,transparent 4px) 0 0/100% 28px repeat-y,
+    repeating-linear-gradient(180deg,transparent 0 27px,var(--rule) 27px 28px),#fff;
+  border:1.5px solid var(--navy);box-shadow:3px 4px 0 rgba(30,42,110,.16);transform:rotate(-.6deg);
+}
+.note::before{content:"";position:absolute;top:0;left:50%;width:84px;height:20px;margin-left:-42px;background:var(--tape);transform:rotate(-3deg)}
+.note p:last-child{margin-bottom:8px}
+.note.sk{background:
+    radial-gradient(circle at 12px 14px,var(--desk) 0 3.5px,transparent 4px) 0 0/100% 28px repeat-y,
+    repeating-linear-gradient(180deg,transparent 0 27px,#bcd3f5 27px 28px),#f3f8ff}
+
+/* 세영고 */
+.places{display:grid;gap:14px;grid-template-columns:1fr;margin:0 0 28px;padding:0;list-style:none}
+@media(min-width:620px){.places{grid-template-columns:repeat(3,1fr)}}
+.places li{border:2px dashed var(--navy);padding:10px 14px 6px;background:rgba(255,253,248,.92);border-radius:4px}
+.places b{font-family:var(--f-display);font-weight:400;font-size:19px;color:var(--navy)}
+.places p{margin:0;font-size:15px;line-height:24px;color:var(--ink-soft)}
+.facts{display:grid;gap:12px;margin:0 0 28px;padding:0;list-style:none;max-width:40em}
+.facts li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.facts b{font-family:var(--f-display);font-weight:400;color:#fff;background:var(--navy);padding:0 10px;border-radius:4px;font-size:15px;line-height:24px}
+
+/* 인물 */
+.shot{
+  position:relative;aspect-ratio:1216/832;overflow:hidden;background:#f1ede6;border-radius:3px;
+  border:1px solid rgba(30,42,110,.2)
+}
+.shot img{width:100%;height:100%;object-fit:cover}
+.shot.noimg img{display:none}
+.shot.noimg{
+  background:repeating-linear-gradient(135deg,#f7f3ee 0 10px,#efe9e2 10px 20px);
+  display:grid;place-items:center;text-align:center;
+}
+.shot.noimg::after{content:attr(data-ph);font-family:var(--f-hand);font-size:18px;line-height:22px;color:var(--ink-soft);white-space:pre-line}
+.mate{
+  position:relative;background:#fff;padding:12px 12px 10px;border:1.5px solid var(--navy);
+  box-shadow:3px 4px 0 rgba(30,42,110,.14);margin:0;
+}
+.mate::before{content:"";position:absolute;top:-10px;left:50%;width:70px;height:20px;margin-left:-35px;background:var(--tape);transform:rotate(var(--tr,-3deg))}
+.mate .nm{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mate .nm h3{font-size:22px}
+.mate .meta{font-family:var(--f-hand);font-size:17px;line-height:22px;color:var(--ink-soft)}
+.mate .trait{display:inline-block;margin:6px 0 4px;padding:0 10px;font-size:14px;line-height:24px;background:var(--sakura-l);border-radius:99px;color:var(--navy)}
+.mate .q{margin:6px 0 2px;font-family:var(--f-hand);font-size:18px;line-height:23px;font-weight:700;color:var(--navy)}
+.mate .q::before{content:"“"}.mate .q::after{content:"”"}
+
+.pair{margin-bottom:56px}
+.pair-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.pair-h h3{font-size:26px;line-height:32px}
+/* 진도 구간 스티커: 구간이 깊을수록 색이 진해진다 */
+.stage{
+  font-family:var(--f-display);font-size:15px;line-height:1;padding:6px 12px 7px;border-radius:99px;
+  border:3px solid #fff;color:#fff;background:var(--sg);
+  box-shadow:0 0 0 1.5px var(--navy),1px 3px 0 rgba(30,42,110,.2);transform:rotate(-2deg)
+}
+.stage.lt{color:var(--navy)}
+.pair-grid{display:grid;grid-template-columns:1fr;gap:26px;margin-bottom:14px}
+@media(min-width:560px){.pair-grid{grid-template-columns:1fr 1fr;gap:22px}}
+.pair-grid .mate:nth-child(1){transform:rotate(-.8deg)}
+.pair-grid .mate:nth-child(2){transform:rotate(.7deg);--tr:4deg}
+.pair-story{font-size:15px;line-height:24px;max-width:42em;margin:0;padding-left:12px;border-left:4px solid var(--sg)}
+
+/* 라온 */
+.raon{display:grid;gap:22px;grid-template-columns:1fr;align-items:start;margin-bottom:56px}
+@media(min-width:760px){.raon{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}}
+.switch{display:flex;gap:8px;margin:0 0 14px}
+.switch button{
+  border:2px solid var(--navy);background:#fff;border-radius:99px;padding:3px 16px 4px;
+  font-family:var(--f-display);font-size:17px;line-height:24px;color:var(--navy)
+}
+.switch button[aria-pressed="true"]{background:var(--crimson);color:#fff;box-shadow:2px 3px 0 rgba(30,42,110,.3)}
+.potion{font-family:var(--f-hand);font-size:18px;line-height:24px}
+
+
+/* ---------- 학사일정: 실제 달력 ---------- */
+.cal{display:grid;gap:30px 24px;grid-template-columns:minmax(0,1fr);margin:30px 0 24px}
+@media(min-width:600px){.cal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1000px){.cal{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 20px}}
+.cm{position:relative;background:#fff;border:2px solid var(--navy);border-radius:4px;box-shadow:4px 5px 0 rgba(30,42,110,.14);padding:0 0 10px}
+.cm-h{display:flex;align-items:baseline;justify-content:space-between;padding:8px 12px 6px;background:var(--sakura-l);border-bottom:2px solid var(--navy)}
+.cm:nth-child(even) .cm-h{background:var(--sky)}
+.cm-h .mm{font-family:var(--f-display);font-size:28px;line-height:34px;color:var(--navy)}
+.cm-h .yy{font-family:var(--f-hand);font-size:16px;color:var(--ink-soft)}
+.cm-flag{position:absolute;top:-14px;right:10px;transform:rotate(4deg);z-index:2}
+.dow,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:0 8px}
+.dow{padding-top:6px;font-family:var(--f-display);font-size:13px;line-height:22px;text-align:center;color:var(--ink-soft)}
+.dow span:first-child,.d.sun{color:var(--crimson)}
+.dow span:last-child,.d.sat{color:var(--sky-d)}
+.d{
+  position:relative;aspect-ratio:1/1;border-top:1px solid #e3e8f4;padding:2px 3px;font-family:var(--f-hand);font-weight:700;
+  font-size:14px;line-height:16px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
+}
+.d.sat,.d.sun{font-weight:400}
+.d .e{font-size:17px;line-height:1;text-align:center;font-family:system-ui,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.d.ev{background:var(--sakura-l);box-shadow:inset 0 0 0 2px var(--crimson)}
+.d.rg{background:#dfeaff}
+.d.rg.first{box-shadow:inset 2px 0 0 var(--sky-d)}
+.d.rg.last{box-shadow:inset -2px 0 0 var(--sky-d)}
+.d.rg.vac{background:#ffeef3}
+.d.rg.vac.first{box-shadow:inset 2px 0 0 var(--crimson)}
+.d.rg.vac.last{box-shadow:inset -2px 0 0 var(--crimson)}
+.d.start{background:repeating-linear-gradient(135deg,#fff7d4 0 5px,#fff 5px 10px)}
+.d.blank{border-top-color:transparent}
+.clist{list-style:none;margin:8px 12px 0;padding:8px 0 0;border-top:1.5px dotted var(--ink-soft);font-size:14px;line-height:22px}
+.clist li{padding:2px 0;color:var(--navy)}
+.clist .when{display:inline-block;min-width:3.4em;font-family:var(--f-hand);font-weight:700;font-size:16px;color:var(--crimson-d)}
+.clist .none{color:#a3a6c2;font-family:var(--f-hand);font-size:16px}
+.clist .sub{display:block;margin-left:3.4em;font-size:13px;line-height:19px;color:var(--ink-soft)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;line-height:20px;color:var(--ink-soft);margin:0 0 28px}
+.legend i{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:5px;border-radius:3px}
+
+
+/* ---------- 타이틀: 노트 표지 ---------- */
+body.lock{overflow:hidden}
+.intro{
+  position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;
+  background:
+    radial-gradient(circle at 1px 1px,rgba(30,42,110,.08) 1px,transparent 1.5px) 0 0/18px 18px,
+    var(--desk);
+  transition:opacity .5s ease,visibility .5s;
+}
+.intro.gone{opacity:0;visibility:hidden}
+.book{position:relative;width:min(340px,78vw);aspect-ratio:3/4;perspective:1800px}
+.leaf{
+  position:absolute;inset:0;border-radius:4px 10px 10px 4px;padding:30px 22px 22px 40px;color:var(--navy);
+  background:
+    linear-gradient(90deg,transparent 0 30px,var(--margin) 30px 32px,transparent 32px),
+    repeating-linear-gradient(180deg,transparent 0 27px,var(--rule) 27px 28px),var(--paper);
+  box-shadow:0 18px 40px rgba(30,42,110,.25);
+}
+.leaf p{font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:28px;margin:28px 0 0}
+.leaf small{display:block;font-family:var(--f-hand);font-size:17px;line-height:28px;color:var(--ink-soft)}
+.cover{
+  position:absolute;inset:0;border:0;padding:0;cursor:pointer;transform-origin:left center;transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.6,.05,.35,1);border-radius:4px 10px 10px 4px;background:none;
+}
+.cover-front,.cover-back{position:absolute;inset:0;border-radius:4px 10px 10px 4px;backface-visibility:hidden}
+.cover-front{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  background:
+    linear-gradient(90deg,var(--navy) 0 22px,rgba(255,255,255,.25) 22px 23px,transparent 23px),
+    radial-gradient(circle at 70% 20%,rgba(255,255,255,.35),transparent 55%),
+    var(--sakura);
+  box-shadow:inset 0 0 0 2px var(--navy),0 18px 40px rgba(30,42,110,.3);
+}
+.cover-back{transform:rotateY(180deg);background:var(--sakura-l);box-shadow:inset 0 0 0 2px var(--navy)}
+.book.open .cover{transform:rotateY(-170deg)}
+.label{
+  position:relative;width:76%;margin-left:14px;padding:22px 14px 18px;text-align:center;
+  background:repeating-linear-gradient(180deg,transparent 0 19px,var(--rule) 19px 20px),#fff;
+  border:2px solid var(--navy);border-radius:6px;box-shadow:3px 4px 0 rgba(30,42,110,.25);transform:rotate(-1.5deg);
+}
+.label .scrap{display:inline-block;font-size:24px;margin-bottom:6px}
+.label .logo{display:block;width:100%;height:auto;margin:0 auto;transform:rotate(2deg)}
+.cover-bow{position:absolute;top:-14px;right:-14px;width:84px;height:84px;transform:scaleX(-1);pointer-events:none}
+.hint{
+  margin-left:14px;font-family:var(--f-display);font-size:17px;color:#fff;background:var(--navy);
+  padding:6px 16px 7px;border-radius:99px;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--navy);
+}
+.cover:hover .hint,.cover:focus-visible .hint{background:var(--crimson)}
+.cover:focus-visible{outline:3px solid var(--crimson);outline-offset:6px}
+
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="lock">
+<!-- 낙서 도형 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="d-heart" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.6A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></symbol>
+    <symbol id="d-plane" viewBox="0 0 24 24"><path d="M2 11 22 3 15 21l-4-7zM11 14 22 3"/></symbol>
+    <symbol id="d-star" viewBox="0 0 24 24"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17l-6.1 3.6 1.4-6.8L2.2 9.1l6.9-.8z"/></symbol>
+    <symbol id="d-pencil" viewBox="0 0 24 24"><path d="m4 20 1.2-5L17 3.2a2 2 0 0 1 2.8 0l1 1a2 2 0 0 1 0 2.8L9 19zM14 6l4 4"/></symbol>
+    <linearGradient id="g-bow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4a5e"/><stop offset="1" stop-color="#c8102e"/></linearGradient>
+    <linearGradient id="g-logo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5b84"/><stop offset="1" stop-color="#e3124a"/></linearGradient>
+    <symbol id="d-bow" viewBox="0 0 120 120">
+      <path d="M-10 70 70 -10" stroke="url(#g-bow)" stroke-width="20" fill="none"/>
+      <path d="M48 44C30 18 6 28 14 46c6 14 24 6 34-2z" fill="url(#g-bow)" stroke="#8d0a22" stroke-width="1.5"/>
+      <path d="M52 48C74 38 96 52 84 68c-9 10-26-2-32-20z" fill="url(#g-bow)" stroke="#8d0a22" stroke-width="1.5"/>
+      <path d="M46 52c-8 16-4 36 2 56l12-8 2-22zM54 52c10 12 24 26 36 36l8-14-26-26z" fill="url(#g-bow)" stroke="#8d0a22" stroke-width="1.5" transform="translate(-4 -2)"/>
+      <ellipse cx="50" cy="48" rx="10" ry="9" fill="#e5183a" stroke="#8d0a22" stroke-width="1.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- 타이틀: 노트 표지 -->
+<div class="intro" id="intro">
+  <div class="book" id="book">
+    <div class="leaf" aria-hidden="true">
+      <p>다섯 커플,</p>
+      <small>그리고 빈자리 하나.</small>
+    </div>
+    <button class="cover" id="openNote" type="button" aria-label="노트 펼치기">
+      <span class="cover-front">
+        <span class="label">
+          <span class="scrap">나 빼고</span>
+          <svg class="logo" viewBox="0 0 116 46" aria-hidden="true">
+            <g font-family="Jua,'Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="36" text-anchor="middle" stroke-linejoin="round">
+              <text x="58" y="36" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#1e2a6e" stroke="#1e2a6e" stroke-width="11">다 커플</text>
+              <text x="58" y="36" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#fff" stroke="#fff" stroke-width="7">다 커플</text>
+              <text x="58" y="36" textLength="104" lengthAdjust="spacingAndGlyphs" fill="url(#g-logo)">다 커플</text>
+            </g>
+          </svg>
+        </span>
+        <span class="hint">노트 펼치기</span>
+      </span>
+      <span class="cover-back"></span>
+    </button>
+    <svg class="cover-bow" viewBox="0 0 120 120" aria-hidden="true"><use href="#d-bow"/></svg>
+  </div>
+</div>
+
+<!-- BGM: 음원은 index.html 옆 bgm.mp3, 표지를 펼치면 재생 -->
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+
+<div class="sheet">
+  <!-- 모서리 리본 -->
+  <svg class="bow" viewBox="0 0 120 120" aria-hidden="true">
+    <path d="M-10 70 70 -10" stroke="url(#g-bow)" stroke-width="20" fill="none"/>
+    <path d="M-10 70 70 -10" stroke="#fff" stroke-opacity=".28" stroke-width="2" stroke-dasharray="3 5" fill="none" transform="translate(0 -4)"/>
+    <path d="M48 44C30 18 6 28 14 46c6 14 24 6 34-2z" fill="url(#g-bow)" stroke="#8d0a22" stroke-width="1.5"/>
+    <path d="M52 48C74 38 96 52 84 68c-9 10-26-2-32-20z" fill="url(#g-bow)" stroke="#8d0a22" stroke-width="1.5"/>
+    <path d="M46 52c-8 16-4 36 2 56l12-8 2-22zM54 52c10 12 24 26 36 36l8-14-26-26z" fill="url(#g-bow)" stroke="#8d0a22" stroke-width="1.5" transform="translate(-4 -2)"/>
+    <ellipse cx="50" cy="48" rx="10" ry="9" fill="#e5183a" stroke="#8d0a22" stroke-width="1.5"/>
+  </svg>
+
+  <div class="frame">
+    <div class="doodles" aria-hidden="true">
+      <svg style="top:13%;transform:rotate(-12deg)" class="p"><use href="#d-heart"/></svg>
+      <svg style="top:24%;transform:rotate(14deg)"><use href="#d-plane"/></svg>
+      <svg style="top:37%"><use href="#d-star"/></svg>
+      <svg style="top:50%;transform:rotate(-8deg)" class="p"><use href="#d-heart"/></svg>
+      <svg style="top:62%;transform:rotate(26deg)" class="p"><use href="#d-pencil"/></svg>
+      <svg style="top:75%;transform:rotate(-10deg)"><use href="#d-plane"/></svg>
+      <svg style="top:87%;transform:rotate(8deg)" class="p"><use href="#d-star"/></svg>
+    </div>
+
+    <header class="top">
+      <div class="brand">
+        <span class="scrap">나 빼고</span>
+        <svg class="logo" viewBox="0 0 116 46" role="img" aria-label="다 커플">
+          <g font-family="Jua,'Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="36" text-anchor="middle" stroke-linejoin="round">
+            <text x="58" y="36" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#1e2a6e" stroke="#1e2a6e" stroke-width="11">다 커플</text>
+            <text x="58" y="36" textLength="104" lengthAdjust="spacingAndGlyphs" fill="#fff" stroke="#fff" stroke-width="7">다 커플</text>
+            <text x="58" y="36" textLength="104" lengthAdjust="spacingAndGlyphs" fill="url(#g-logo)">다 커플</text>
+          </g>
+        </svg>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="페이지">
+        <button class="tab" role="tab" data-p="world" aria-selected="true">소개</button>
+        <button class="tab" role="tab" data-p="calendar" aria-selected="false">학사일정</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================= 소개 ================= -->
+      <section class="page on" id="p-world" role="tabpanel">
+        <div class="block b-sky">
+          <h2>세영고</h2>
+          <p>남녀공학 고등학교이다. 교복은 남색 블레이저에 흰 셔츠, 빨간 리본(여학생) 또는 넥타이(남학생), 회색 스커트와 바지이다.</p>
+          <ul class="places">
+            <li><b>등나무 쉼터</b><p>본관 뒤 벤치. 옆에 은호의 화단이 있으며, 커플들이 자주 겹치는 곳이다.</p></li>
+            <li><b>지구과학실</b><p>하연의 천문부 동아리실. 점심마다 주원이 따라온다.</p></li>
+            <li><b>하굣길·분식점</b><p>벚꽃길을 지나면 학교 앞 분식점이 나온다. 방과 후 집합 장소이자 졸업한 선배를 만나는 곳이다.</p></li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h2>빈자리 친구</h2>
+          <div class="raon" id="raon"></div>
+        </div>
+
+        <div class="block b-sky" style="margin-bottom:0">
+          <h2>다섯 커플</h2>
+          <div id="pairs" style="margin-top:28px"></div>
+        </div>
+
+      </section>
+
+
+      <!-- ================= 학사일정 ================= -->
+      <section class="page" id="p-calendar" role="tabpanel">
+        <div class="block">
+          <h2>세영고의 1년</h2>
+          <p class="lead">3월에 한 학년씩 올라가고, 2월 졸업식으로 한 해가 끝난다.</p>
+          <div class="legend" aria-label="범례">
+            <span><i style="background:var(--sakura-l);box-shadow:inset 0 0 0 2px var(--crimson)"></i>행사일</span>
+            <span><i style="background:#ffeef3;border:1px solid #f4a7b4"></i>방학</span>
+            <span><i style="background:#dfeaff;border:1px solid var(--sky-d)"></i>수학여행</span>
+            <span><i style="background:repeating-linear-gradient(135deg,#fff7d4 0 3px,#fff 3px 6px);border:1px solid #d9c98a"></i>작품 시작 주</span>
+          </div>
+          <div class="cal" id="cal"></div>
+          <p class="soft hand" style="max-width:36em">수학여행은 3일 일정이며 오사카성, 나라 사슴공원, 도톤보리를 돌아본다. 일자는 한 해의 흐름을 보여 주기 위한 배치이다.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   데이터 — 내용을 고칠 땐 여기만 고친다.
+   이미지: img/{번호}.png  (이미지 표의 번호 = 파일명, 0 채우기 없음)
+   ===================================================== */
+const IMG = n => `img/${n}.png`;
+
+const MATES = {
+  dasol:{img:41,name:'오다솔',grade:'고2',birth:'2009.05.03',h:158,trait:'눈치 빠른 다정함 · 현실 추진력',q:'또 밥 거른 거지? 일단 이거부터 먹고 얘기해.'},
+  taehwan:{img:61,name:'문태환',grade:'고2',birth:'2009.09.21',h:178,trait:'차분한 다정함 · 속 깊은 배려',q:'…표정 보니까 아닌 것 같은데. 무슨 일인지 말해 줘.'},
+  hayeon:{img:81,name:'류하연',grade:'고3',birth:'2008.07.14',h:152,trait:'침착한 통찰 · 따뜻한 리더십',q:'괜찮아, 천천히 해. …잘하고 있어.'},
+  juwon:{img:101,name:'배주원',grade:'고1',birth:'2010.02.28',h:185,trait:'솔직함 · 성실함 · 순수한 열정',q:'선배! 오늘도 제가 제일 먼저 왔습니다!'},
+  sewon:{img:121,name:'나세원',grade:'고2',birth:'2009.01.18',h:163,trait:'책임감 · 섬세함',q:'…별건 아닌데, 필기 여분이 있어서요. 가져가요.'},
+  eunho:{img:141,name:'안은호',grade:'고2',birth:'2009.06.30',h:180,trait:'온화함 · 경청 · 포용',q:'천천히 말해도 돼. 끝까지 들을게.'},
+  bona:{img:161,name:'구보나',grade:'고2',birth:'2009.08.12',h:160,trait:'낙천 · 용기',q:'와, 해냈다! 봤지? 너 되는 사람이라니까!'},
+  jaeheon:{img:181,name:'노재헌',grade:'고2',birth:'2009.11.03',h:177,trait:'침착한 관찰 · 은근한 의리',q:'…졸리면 말해. 어깨 정도는 빌려줄 수 있어.'},
+  saebom:{img:201,name:'방새봄',grade:'고1',birth:'2010.06.17',h:150,trait:'순수 · 호기심 · 거침없는 호의',q:'선배 보면 기분이 더 좋아져요!'},
+  dohun:{img:221,name:'차도훈',grade:'고3',birth:'2008.02.26',h:183,trait:'듬직함 · 책임감 · 느긋한 유머',q:'걱정 마, 선배가 있잖아. 일단 밥부터 먹자.'}
+};
+
+const PAIRS = [
+  {a:'dasol',b:'taehwan',since:'사귄 지 한 달',
+   story:'초등학생 때부터 단짝이었다. 태환이 진지하게 건넨 “너 요즘 예뻐 보여”가 시작이었다. 호칭은 아직 “야”이고 애칭은 매번 실패한다. 둘은 비밀인 척하는 중이다.'},
+  {a:'hayeon',b:'juwon',since:'사귄 지 3개월',
+   story:'겨울방학 천문대 관측회에서 만났다. 입학 후 주원이 매일 천문부에 따라온다. 하연은 “주원아”, 주원은 “선배”라고 부른다. 학교가 모두 아는 사이이다.'},
+  {a:'sewon',b:'eunho',since:'사귄 지 2주',
+   story:'은호가 세원이 몰래 정리해 둔 필기를 보고 감탄했다. 엇박자 끝에 세원이 고백 편지를 썼다. 둘은 아직 서로를 “은호 씨”, “세원 씨”라고 부르며 존댓말을 쓴다. 이 사실을 아는 사람은 라온뿐이다.'},
+  {a:'bona',b:'jaeheon',since:'100일 넘음',
+   story:'작년 체육대회에서 넘어진 보나에게 재헌이 말없이 손을 내밀었다. 보나는 재헌을 “헌이”라고 부른다. 아침 러닝과 스케치 교환이 둘의 루틴이다. 학교가 아는 커플이다.'},
+  {a:'saebom',b:'dohun',since:'사귄 지 1주',
+   story:'입학식 날 길을 잃은 새봄을 도훈이 데려다주었다. 친구들이 등을 떠밀어 고백이 성사되었다. 둘 다 실감하지 못해 선후배 모드 그대로이다. 소문은 학교 전체에 퍼졌다.'}
+];
+
+const RAON = {
+  f:{img:1,tag:'여',grade:'고2',birth:'2009.04.09',h:156,
+     trait:'텐션 높은 응원단장',
+     desc:'남의 기쁨을 가장 크게 기뻐한다. 빠른 반말로 감탄을 쏟아내며, 칭찬을 받으면 수첩으로 얼굴을 가린다.',
+     q:'야, 방금 봤어? 진짜 심장 터지는 줄!'},
+  m:{img:21,tag:'남',grade:'고2',birth:'2009.04.09',h:172,
+     trait:'쿨한 척, 눈물 많음',
+     desc:'남의 연애에 몰래 감동해 눈가를 훔친다. 쿨한 척하다가 귀가 빨개진다. 느릿한 짧은 반말을 쓴다.',
+     q:'…오, 좋네. 아니, 안 울어.'}
+};
+
+/* 학사일정: 3월부터 이듬해 2월까지. y·m·d 는 달력 배치용 일자.
+   to 가 있으면 기간, vac 이면 방학 색, start 는 작품 시작 주(4월 둘째 주). */
+const YEAR0 = 2026;           // 3월~12월 연도 (1~2월은 +1)
+const EVENTS = [
+  {m:3, d:2,  e:'🌱', t:'진급', s:'첫 등교일에 한 학년 올라간다'},
+  {m:3, d:14, e:'🍫', t:'화이트데이'},
+  {m:4, d:15, e:'📝', t:'중간고사'},
+  {m:5, d:15, e:'🏃', t:'체육대회'},
+  {m:5, d:28, e:'🎢', t:'현장체험학습'},
+  {m:7, d:17, e:'📚', t:'기말고사 · 방학식'},
+  {m:8, d:1,  to:31, e:'🎆', t:'여름방학', s:'8월 한 달 내내', vac:true},
+  {m:9, d:16, to:18, e:'🧳', t:'수학여행 · 오사카', s:'3일 · 그해 2학년만 간다', trip:true},
+  {m:10,d:23, e:'🎪', t:'세영제'},
+  {m:12,d:25, e:'🎄', t:'첫눈 · 크리스마스'},
+  {m:2, d:12, e:'💐', t:'졸업식'},
+  {m:2, d:14, e:'🍫', t:'밸런타인데이'}
+];
+const START_WEEK = {m:4, from:6, to:10};   // 작품 시작: 4월 둘째 주
+const MONTH_ORDER = [3,4,5,6,7,8,9,10,11,12,1,2];
+
+
+/* ===================================================== */
+const $ = (s,r=document)=>r.querySelector(s);
+const DOW = ['일','월','화','수','목','금','토'];
+
+function shot(n,label){
+  return `<div class="shot" data-ph="${label}\n(이미지 ${n}번)"><img src="${IMG(n)}" alt="${label}" onerror="this.parentNode.classList.add('noimg')"></div>`;
+}
+function mateCard(k){
+  const x=MATES[k];
+  return `<figure class="mate">
+    ${shot(x.img,x.name)}
+    <div class="nm"><h3>${x.name}</h3><span class="meta">${x.grade} · ${x.birth} · ${x.h}cm</span></div>
+    <span class="trait">${x.trait}</span>
+    <p class="q">${x.q}</p>
+  </figure>`;
+}
+function renderPairs(){
+  $('#pairs').innerHTML = PAIRS.map(p=>{
+    return `<article class="pair" style="--sg:var(--crimson)">
+      <div class="pair-h"><h3>${MATES[p.a].name.slice(1)} · ${MATES[p.b].name.slice(1)}</h3><span class="hand soft">${p.since}</span></div>
+      <div class="pair-grid">${mateCard(p.a)}${mateCard(p.b)}</div>
+      <p class="pair-story">${p.story}</p>
+    </article>`;}).join('');
+}
+let raonSex='f';
+function renderRaon(){
+  const r=RAON[raonSex];
+  $('#raon').innerHTML = `
+    <figure class="mate">
+      ${shot(r.img,'서라온('+r.tag+')')}
+      <div class="nm"><h3>서라온</h3><span class="meta">${r.tag} · ${r.grade} · ${r.birth} · ${r.h}cm</span></div>
+      <span class="trait">${r.trait}</span>
+      <p class="q">${r.q}</p>
+    </figure>
+    <div>
+      <div class="switch" role="group" aria-label="라온의 성별">
+        <button type="button" data-s="f" aria-pressed="${raonSex==='f'}">여학생</button>
+        <button type="button" data-s="m" aria-pressed="${raonSex==='m'}">남학생</button>
+      </div>
+      <p>${r.desc}</p>
+      <div class="note sk"><p class="potion">당신의 가방에는 <b>전환의 물약</b>이 늘 들어 있다. 건네면 라온이 장난스럽게 마시고, 펑 하는 연기와 함께 반대 성별이 된다. 이름·기억·관계는 그대로이며 말투와 표현만 달라진다. 친구들은 이미 익숙하다.</p></div>
+      <p class="soft hand">라온의 수첩 맨 뒷장에는 당신과의 소소한 순간이 적혀 있다는 비밀이 있다.</p>
+    </div>`;
+}
+$('#raon').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-s]'); if(!b||b.dataset.s===raonSex) return;
+  raonSex=b.dataset.s; renderRaon();
+  const nb=$(`#raon button[data-s="${raonSex}"]`); nb&&nb.focus();
+});
+
+/* ---------- 달력 ---------- */
+function renderCalendar(){
+  const html = MONTH_ORDER.map(m=>{
+    const y = m>=3 ? YEAR0 : YEAR0+1;
+    const first = new Date(y,m-1,1).getDay();
+    const last  = new Date(y,m,0).getDate();
+    const evs = EVENTS.filter(x=>x.m===m);
+    const cell = {};  // d -> {cls:[],e:''}
+    const mark=(d,cls,e)=>{const c=cell[d]||(cell[d]={cls:[],e:''}); c.cls.push(...cls); if(e) c.e=e;};
+    evs.forEach(v=>{
+      if(v.to){
+        for(let d=v.d; d<=v.to; d++){
+          const cls=['rg']; if(v.vac) cls.push('vac');
+          if(d===v.d) cls.push('first'); if(d===v.to) cls.push('last');
+          mark(d,cls, (v.trip ? (d===v.d?v.e:'') : (d===v.d?v.e:'')));
+        }
+      } else mark(v.d,['ev'],v.e);
+    });
+    if(START_WEEK.m===m) for(let d=START_WEEK.from; d<=START_WEEK.to; d++) mark(d,['start'],'');
+    let days='';
+    for(let i=0;i<first;i++) days+='<div class="d blank"></div>';
+    for(let d=1; d<=last; d++){
+      const w=(first+d-1)%7, c=cell[d];
+      const cls=['d']; if(w===0) cls.push('sun'); if(w===6) cls.push('sat'); if(c) cls.push(...c.cls);
+      days+=`<div class="${cls.join(' ')}"><span>${d}</span><span class="e">${c?c.e:''}</span></div>`;
+    }
+    const wd=(d)=>DOW[new Date(y,m-1,d).getDay()];
+    const list = evs.length
+      ? evs.map(v=>`<li><span class="when">${v.to ? (v.to-v.d>=28 ? '전체' : `${v.d}~${v.to}일`) : `${v.d}일(${wd(v.d)})`}</span>${v.e} <b>${v.t}</b>${v.s?`<span class="sub">${v.s}</span>`:''}</li>`).join('')
+      : `<li><span class="none">행사 없음</span></li>`;
+    const flag = START_WEEK.m===m ? `<span class="cm-flag"><span class="stage" style="--sg:#ff2f62">작품 시작</span></span>` : '';
+    return `<article class="cm">${flag}
+      <div class="cm-h"><span class="mm">${m}월</span></div>
+      <div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div>
+      <div class="days">${days}</div>
+      <ul class="clist">${list}</ul>
+    </article>`;
+  }).join('');
+  $('#cal').innerHTML = html;
+}
+
+
+/* ---------- 탭 ---------- */
+const PAGES=['world','calendar'];
+function go(p,push){
+  if(!PAGES.includes(p)) p='world';
+  PAGES.forEach(id=>$('#p-'+id).classList.toggle('on',id===p));
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.p===p));
+  if(push) history.replaceState(null,'','#'+p);
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelector('.tabs').addEventListener('click',e=>{const t=e.target.closest('.tab'); if(t) go(t.dataset.p,true)});
+window.addEventListener('hashchange',()=>go(location.hash.slice(1)));
+
+const setHH=()=>document.documentElement.style.setProperty('--hh',$('.top').offsetHeight+'px');
+setHH(); addEventListener('resize',setHH); document.fonts&&document.fonts.ready.then(setHH);
+
+/* ---------- BGM ---------- */
+const bgm=$('#bgm'); bgm.volume=.5;
+
+/* ---------- 타이틀: 노트 펼치기 ---------- */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+$('#openNote').addEventListener('click',()=>{
+  bgm.play().catch(()=>{});   // 이 클릭이 브라우저의 재생 허용 조건
+  $('#book').classList.add('open');
+  setTimeout(()=>{
+    $('#intro').classList.add('gone');
+    document.body.classList.remove('lock');
+    setHH();
+    setTimeout(()=>$('#intro').remove(),500);
+  }, reduce?0:900);
+});
+
+renderRaon(); renderPairs(); renderCalendar();
+go(location.hash.slice(1));
+</script>
+</body>
+</html>
